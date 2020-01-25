@@ -1,0 +1,14 @@
+.env
+data
+logs
+go/pkg
+go/bin
+go/src/*
+!go/src/notifyd
+depends.png
+.cache
+tmp
+db
+node_modules
+package-lock.json
+.vscode
