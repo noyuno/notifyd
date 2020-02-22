@@ -17,7 +17,7 @@ def makeAPIHandler(sendqueue, logger, token):
                 self.send_response(200)
                 self.send_header('content-type', 'text')
                 self.end_headers()
-                self.wfile.write('discordbot\nhello'.encode('utf-8'))
+                self.wfile.write('notifyd\nhello'.encode('utf-8'))
             elif parsed_path == "/xrain":
                 try:
                     b = None
@@ -36,7 +36,7 @@ def makeAPIHandler(sendqueue, logger, token):
                 self.send_response(404)
                 self.send_header('content-type', 'text')
                 self.end_headers()
-                self.wfile.write('discordbot\n404 not found'.encode('utf-8'))
+                self.wfile.write('notifyd\n404 not found'.encode('utf-8'))
 
         def do_POST(self):
             res = { 'status': 0, 'type': 'none', 'message': 'none' }
@@ -79,7 +79,7 @@ class API():
             pass
         if port is None:
             port = 80
-        server = HTTPServer(('discordbot', port), handler)
+        server = HTTPServer(('', port), handler)
         self.logger.debug('listen api at {0}:{1}'.format(socket.gethostbyname_ex(socket.gethostname()), port))
         server.serve_forever()
 

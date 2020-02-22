@@ -9,15 +9,15 @@ import logging
 from datetime import datetime
 
 import util
-import discordbot
+import discordclient
 import api
 
 def initlogger():
-    logdir = '/logs/discordbot'
+    logdir = '/logs/notifyd'
     os.makedirs(logdir, exist_ok=True)
     starttime = datetime.now().strftime('%Y%m%d-%H%M')
     logging.getLogger().setLevel(logging.WARNING)
-    logger = logging.getLogger('discordbot')
+    logger = logging.getLogger('notifyd')
     if os.environ.get('DEBUG'):
         logger.setLevel(logging.DEBUG)
     else:
@@ -33,7 +33,7 @@ def initlogger():
     return logger, starttime
 
 def main(logger):
-    envse = ['DISCORD_TOKEN', 'DISCORD_CHANNEL_NAME', 'DISCORDBOT_TOKEN']
+    envse = ['DISCORD_TOKEN', 'DISCORD_CHANNEL_NAME', 'NOTIFYD_TOKEN']
     envsc = ['PORT']
 
     f = util.environ(envse, 'error')
@@ -45,15 +45,15 @@ def main(logger):
     sendqueue = queue.Queue()
 
     httploop = asyncio.new_event_loop()
-    ap = api.API(httploop, sendqueue, logger, os.environ.get('DISCORDBOT_TOKEN'))
+    ap = api.API(httploop, sendqueue, logger, os.environ.get('NOTIFYD_TOKEN'))
     threading.Thread(target=ap.run, name='api').start()
 
     logger.debug('launch discord client')
-    client = discordbot.DiscordClient(os.environ.get('DISCORD_CHANNEL_NAME'), sendqueue, logger)
+    client = discordclient.DiscordClient(os.environ.get('DISCORD_CHANNEL_NAME'), sendqueue, logger)
     client.run(os.environ.get('DISCORD_TOKEN'))
 
 if __name__ == '__main__':
     logger, starttime = initlogger()
-    logger.info('started discordbot at {0}'.format(starttime))
+    logger.info('started notifyd at {0}'.format(starttime))
     main(logger)
 

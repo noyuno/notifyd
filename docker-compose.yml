@@ -1,15 +1,16 @@
 version: "3"
 services:
-    discordbot:
+    notifyd:
         build: .
         restart: always
-        expose:
-            - "80"
+        ports:
+            - "5050:5050"
         volumes:
-            - ./data/discordbot:/data/discordbot
-            - ./logs/discordbot:/logs/discordbot
-            - ./discordbot:/opt/discordbot
+            - ./data/notifyd:/data/notifyd
+            - ./logs/notifyd:/logs/notifyd
         environment:
-            DEPLOY: /data/discordbot
+            DEPLOY: /data/notifyd
             DISCORD_TOKEN: ${DISCORD_TOKEN}
-            DISCORD_CHANNEL_NAME: ${DISCORD_CHANNEL_NAME}
+            NOTIFYD_TOKEN: "abc"
+            DISCORD_CHANNEL_NAME: tv
+            PORT: 5050

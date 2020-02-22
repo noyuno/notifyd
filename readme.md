@@ -3,16 +3,16 @@
 ## How to use API
 
 ~~~bash
-curl -XPOST -d '{"message":"hello, discordbot"}' http://discordbot/ >/dev/null
+curl -s -XPOST -d '{"message":"API test", "token": "abc"}' localhost:5050 >/dev/null
 ~~~
 
 helper function
 ~~~bash
 message () {
     echo "$1"
-    curl -XPOST -sd '{"message": "'"$CONTAINER_NAME"': '"$1"'"}' http://discordbot >/dev/null
+    curl -XPOST -sd '{"message": "'"$CONTAINER_NAME"': '"$1"'"}' localhost:5050 >/dev/null
     if [ $? -ne 0 ]; then
-        echo "$CONTAINER_NAME: failed to send message to discordbot"
+        echo "$CONTAINER_NAME: failed to send message to discordbot" >&2
     fi
 }
 
@@ -25,7 +25,6 @@ put below variables to `.env`
 
 ~~~
 DISCORD_TOKEN=
-DISCORD_CHANNEL_NAME=general
 ~~~
 
 ## Commands

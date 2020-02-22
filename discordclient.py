@@ -19,7 +19,7 @@ class DiscordClient(discord.Client):
         if len(cand) == 0:
             raise Exception("channel {0} not found".format(self.channelname))
         self.channel = cand[0]
-        await self.channel.send('hello this is k2/discordbot')
+        await self.channel.send('hello this is notifyd')
 
     async def on_message(self, message):
         try:
