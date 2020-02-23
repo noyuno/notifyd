@@ -46,7 +46,7 @@ def main(logger):
 
     httploop = asyncio.new_event_loop()
     ap = api.API(httploop, sendqueue, logger, os.environ.get('NOTIFYD_TOKEN'))
-    threading.Thread(target=ap.run, name='api').start()
+    threading.Thread(target=ap.run, name='api', daemon=True).start()
 
     logger.debug('launch discord client')
     client = discordclient.DiscordClient(os.environ.get('DISCORD_CHANNEL_NAME'), sendqueue, logger, os.environ.get('RECEIVE'))
