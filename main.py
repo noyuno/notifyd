@@ -33,8 +33,8 @@ def initlogger():
     return logger, starttime
 
 def main(logger):
-    envse = ['DISCORD_TOKEN', 'DISCORD_CHANNEL_NAME', 'NOTIFYD_TOKEN', 'RECEIVE']
-    envsc = ['PORT']
+    envse = ['DISCORD_TOKEN', 'DISCORD_CHANNEL_NAME', 'NOTIFYD_TOKEN']
+    envsc = ['PORT', 'RECEIVE']
 
     f = util.environ(envse, 'error')
     util.environ(envsc, 'warning')
