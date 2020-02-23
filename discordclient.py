@@ -4,14 +4,17 @@ import sys
 import textwrap
 import io
 
+import requests
+
 class DiscordClient(discord.Client):
-    def __init__(self, channelname, sendqueue, logger, *args, **kwargs):
+    def __init__(self, channelname, sendqueue, logger, receive, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.bg_task = self.loop.create_task(self.send_task())
         self.channelname = channelname
         self.channel = None
         self.sendqueue = sendqueue
         self.logger = logger
+        self.receive = receive
 
     async def on_ready(self):
         self.logger.debug('logged in as {0.user}'.format(self))
@@ -27,8 +30,11 @@ class DiscordClient(discord.Client):
                 return
             if message.channel.name != self.channelname:
                 return
-            if message.content.startswith('hi'):
+            if message.content == 'hi':
                 await message.channel.send('hi')
+            else:
+                if self.receive != None:
+                    req = request.post(self.receive, json=message)
         except Exception as e:
             msg = 'on_message()'
             self.logger.exception(msg, stack_info=True)

@@ -18,20 +18,6 @@ def makeAPIHandler(sendqueue, logger, token):
                 self.send_header('content-type', 'text')
                 self.end_headers()
                 self.wfile.write('notifyd\nhello'.encode('utf-8'))
-            elif parsed_path == "/xrain":
-                try:
-                    b = None
-                    with open('/tmp/xrain.png', 'rb') as content:
-                        b = content.read()
-                    self.send_response(200)
-                    self.send_header('content-type', 'image/png')
-                    self.end_headers()
-                    self.wfile.write(b)
-                except Exception as e:
-                    self.send_response(500)
-                    self.send_header('content-type', 'text')
-                    self.end_headers()
-                    self.wfile.write(("error: " + str(e)).encode('utf-8'))
             else:
                 self.send_response(404)
                 self.send_header('content-type', 'text')

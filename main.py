@@ -33,7 +33,7 @@ def initlogger():
     return logger, starttime
 
 def main(logger):
-    envse = ['DISCORD_TOKEN', 'DISCORD_CHANNEL_NAME', 'NOTIFYD_TOKEN']
+    envse = ['DISCORD_TOKEN', 'DISCORD_CHANNEL_NAME', 'NOTIFYD_TOKEN', 'RECEIVE']
     envsc = ['PORT']
 
     f = util.environ(envse, 'error')
@@ -49,7 +49,7 @@ def main(logger):
     threading.Thread(target=ap.run, name='api').start()
 
     logger.debug('launch discord client')
-    client = discordclient.DiscordClient(os.environ.get('DISCORD_CHANNEL_NAME'), sendqueue, logger)
+    client = discordclient.DiscordClient(os.environ.get('DISCORD_CHANNEL_NAME'), sendqueue, logger, os.environ.get('RECEIVE'))
     client.run(os.environ.get('DISCORD_TOKEN'))
 
 if __name__ == '__main__':

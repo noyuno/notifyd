@@ -13,4 +13,5 @@ services:
             DISCORD_TOKEN: ${DISCORD_TOKEN}
             NOTIFYD_TOKEN: "abc"
             DISCORD_CHANNEL_NAME: tv
+            RECEIVE: "http://localhost:1234/receive-endpoint"
             PORT: 5050
