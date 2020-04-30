@@ -3,6 +3,7 @@ import discord
 import sys
 import textwrap
 import io
+import base64
 
 import requests
 
@@ -34,7 +35,7 @@ class DiscordClient(discord.Client):
                 await message.channel.send('hi')
             else:
                 if self.receive != None:
-                    req = request.post(self.receive, json=message)
+                    req = requests.post(self.receive, json=message)
         except Exception as e:
             msg = 'on_message()'
             self.logger.exception(msg, stack_info=True)
@@ -68,13 +69,20 @@ class DiscordClient(discord.Client):
         if q.get('video') is not None:
             e.set_image(url=q.get('video'))
             anyembed = True
+        if q.get('fields') is not None:
+            for field in q.get('fields'):
+                if field.get('name') and field.get('value'):
+                    inline = field.get('inline') if field.get('inline') else True
+                    e.add_field(field['name'], field['value'], inline)
+                    anyembed = True
         if q.get('imagefile') is not None:
-            fileinstance = discord.File(io.BytesIO(q.get('imagefile')), 'image.png')
+            image_byte = base64.b64decode(q.get('imagefile'))
+            buffered = io.BytesIO(image_byte)
+            fileinstance = discord.File(buffered, 'image.png')
         if anyembed:
             await self.channel.send(message, embed=e, file=fileinstance)
         else:
             await self.channel.send(message, file=fileinstance)
-
 
     async def send_task(self):
         await self.wait_until_ready()

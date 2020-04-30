@@ -1,5 +1,11 @@
 # notifyd
 
+## Install
+
+~~~
+docker-compose up
+~~~
+
 ## How to use API
 
 ~~~bash
