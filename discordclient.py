@@ -72,8 +72,8 @@ class DiscordClient(discord.Client):
         if q.get('fields') is not None:
             for field in q.get('fields'):
                 if field.get('name') and field.get('value'):
-                    inline = field.get('inline') if field.get('inline') else True
-                    e.add_field(field['name'], field['value'], inline)
+                    inline = field.get('inline') if field.get('inline') is not None else True
+                    e.add_field(name=field['name'], value=field['value'], inline=inline)
                     anyembed = True
         if q.get('imagefile') is not None:
             image_byte = base64.b64decode(q.get('imagefile'))
