@@ -2,8 +2,22 @@
 
 ## Install
 
+### Install python library
+
 ~~~
-docker-compose up -d notifyd
+pip3 install -r requirements.txt
+~~~
+
+### Test
+
+~~~
+python3 -u main.py
+~~~
+
+### Start PM2
+
+~~~
+sudo pm2 start main.py --name notifyd --interpreter python3 --user noyuno
 ~~~
 
 ## Examples
@@ -15,13 +29,13 @@ put below variables into `.env`
 ~~~
 DISCORD_TOKEN=
 NOTIFYD_TOKEN=
+DISCORD_CHANNEL_NAME=m1
+PORT=5050
 ~~~
 
 ### Basic
 
 ~~~bash
-source ...../notifyd/.env
-.....
 curl -s -XPOST -d '{"message":"API test", "token": "'"$NOTIFYD_TOKEN"'"}' localhost:5050 >/dev/null
 ~~~
 

@@ -7,13 +7,14 @@ import schedule
 import time
 import logging
 from datetime import datetime
+import dotenv
 
 import util
 import discordclient
 import api
 
 def initlogger():
-    logdir = '/logs/notifyd'
+    logdir = 'logs/notifyd'
     os.makedirs(logdir, exist_ok=True)
     starttime = datetime.now().strftime('%Y%m%d-%H%M')
     logging.getLogger().setLevel(logging.WARNING)
@@ -24,7 +25,7 @@ def initlogger():
         logger.setLevel(logging.INFO)
     logFormatter = logging.Formatter(fmt='%(asctime)s %(levelname)s: %(message)s',
                                      datefmt='%Y%m%d-%H%S')
-    fileHandler = logging.FileHandler('/{}/{}'.format(logdir, starttime))
+    fileHandler = logging.FileHandler('{}/{}'.format(logdir, starttime))
     fileHandler.setFormatter(logFormatter)
     logger.addHandler(fileHandler)
     consoleHandler = logging.StreamHandler()
@@ -36,6 +37,7 @@ def main(logger):
     envse = ['DISCORD_TOKEN', 'DISCORD_CHANNEL_NAME', 'NOTIFYD_TOKEN']
     envsc = ['PORT', 'RECEIVE']
 
+    dotenv.load_dotenv()
     f = util.environ(envse, 'error')
     util.environ(envsc, 'warning')
     if f:
